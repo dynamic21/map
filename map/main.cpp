@@ -27,44 +27,97 @@ unsigned int intRand()
 int main()
 {
 
-	map<uint64_t, vector<int>> world;
+	map<int, map<int, vector<int>>> world;
 
-	uint32_t x = intRand();
-	uint32_t y = intRand();
+	world[-1][-1].push_back(0);
+	world[-1][0].push_back(1);
+	world[-1][1].push_back(2);
+	world[0][-1].push_back(3);
+	world[0][0].push_back(4);
+	world[0][1].push_back(5);
+	world[1][-1].push_back(6);
+	world[1][0].push_back(7);
+	world[1][1].push_back(8);
 
-	world[uint64_t(x) << 32 | y].push_back(10);
-	world[uint64_t(x) << 32 | y].push_back(100);
-
-	world[uint64_t(y) << 32 | x].push_back(-10);
-	world[uint64_t(y) << 32 | x].push_back(-100);
-
-	//world[uint64_t(x) << 32 | y];
-
-	for (map<uint64_t, vector<int>>::iterator i = world.begin(); i != world.end(); i++) {
-		cout << i->first << ": ";
-		for (int j = 0; j < i->second.size(); j++)
+	/*for (map<int, map<int, vector<int>>>::iterator i = world.begin(); i != world.end(); i++)
+		for (map<int, vector<int>>::iterator j = i->second.begin(); j != i->second.end(); j++)
 		{
-			cout << i->second[j] << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
+			cout << "(" << i->first << ", " << j->first << ") : ";
 
-	cout << world.size() << endl;
+			for (int k = 0; k < j->second.size(); k++)
+				cout << j->second[k] << " ";
 
-	for (map<uint64_t, vector<int>>::iterator i = world.begin(); i != world.end(); true) {
-		i = world.erase(i);
-	}
+			cout << endl;
+		}*/
 
-	cout << world.size() << endl;
+		//world.clear();
 
-	for (map<uint64_t, vector<int>>::iterator i = world.begin(); i != world.end(); i++) {
-		cout << i->first << ": ";
-		for (int j = 0; j < i->second.size(); j++)
+	map<int, map<int, vector<int>>>::iterator find1;
+	map<int, vector<int>>::iterator find2;
+	for (map<int, map<int, vector<int>>>::iterator i = world.begin(); i != world.end(); i++)
+	{
+		for (map<int, vector<int>>::iterator j = i->second.begin(); j != i->second.end(); j++)
 		{
-			cout << i->second[j] << " ";
+			cout << "chunk: " << i->first << ", " << j->first << endl;
+
+			for (int k = 0; k < j->second.size(); k++)
+			{
+				for (int l = k + 1; l < j->second.size(); l++)
+				{
+					cout << j->second[k] << " vs " << j->second[l] << endl;
+				}
+
+				find1 = world.find(i->first);
+
+				if (find1 != world.end())
+				{
+					find2 = find1->second.find(j->first + 1);
+
+					if (find2 != find1->second.end())
+					{
+						for (int l = 0; l < find2->second.size(); l++)
+						{
+							cout << j->second[k] << " vs " << find2->second[l] << endl;
+						}
+					}
+				}
+
+				find1 = world.find(i->first + 1);
+
+				if (find1 != world.end())
+				{
+					find2 = find1->second.find(j->first - 1);
+
+					if (find2 != find1->second.end())
+					{
+						for (int l = 0; l < find2->second.size(); l++)
+						{
+							cout << j->second[k] << " vs " << find2->second[l] << endl;
+						}
+					}
+
+					find2 = find1->second.find(j->first);
+
+					if (find2 != find1->second.end())
+					{
+						for (int l = 0; l < find2->second.size(); l++)
+						{
+							cout << j->second[k] << " vs " << find2->second[l] << endl;
+						}
+					}
+
+					find2 = find1->second.find(j->first + 1);
+
+					if (find2 != find1->second.end())
+					{
+						for (int l = 0; l < find2->second.size(); l++)
+						{
+							cout << j->second[k] << " vs " << find2->second[l] << endl;
+						}
+					}
+				}
+			}
+			cout << endl;
 		}
-		cout << endl;
 	}
-	cout << endl;
 }
