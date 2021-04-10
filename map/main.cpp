@@ -12,6 +12,8 @@ int main()
 
 	map<int, map<int, vector<int>>> world;
 
+	world.clear();
+
 	world[-1][-1].push_back(0);
 	world[-1][-1].push_back(9);
 	world[-1][0].push_back(1);
@@ -102,6 +104,4 @@ int main()
 			cout << endl;
 		}
 	}
-
-	world.clear();
 }
