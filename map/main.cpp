@@ -7,10 +7,7 @@ using std::cout;
 using std::endl;
 using std::vector;
 
-long long intToLongLong(int x, int y)
-{
-	return long long(x) << 32 | (long long(y) & 0x00000000ffffffff);
-}
+long long intToLongLong(int x, int y) { return long long(x) << 32 | (long long(y) & 0x00000000ffffffff); }
 
 int main()
 {
@@ -72,6 +69,55 @@ int main()
 			if (find != world.end())
 				for (int k = 0; k < find->second.size(); k++)
 					cout << i->second[j] << " vs " << find->second[k] << endl;
+		}
+
+		cout << endl;
+	}
+
+	bool empty;
+	int x, y;
+	long long idx;
+
+	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	{
+		for (int j = 0; j < i->second.size(); j++)
+		{
+			x = i->first >> 32, y = i->first;
+
+			for (int k = j + 1; k < i->second.size(); k++)
+				cout << i->second[j] << " vs " << i->second[k] << endl;
+
+			idx = intToLongLong(x, --y), empty = 1;
+
+			for (int k = 0; k < world[idx].size(); k++, empty = 0)
+				cout << i->second[j] << " vs " << world[idx][k] << endl;
+
+			if (empty)
+				world.erase(idx);
+
+			idx = intToLongLong(++x, y), empty = 1;
+
+			for (int k = 0; k < world[idx].size(); k++, empty = 0)
+				cout << i->second[j] << " vs " << world[idx][k] << endl;
+
+			if (empty)
+				world.erase(idx);
+
+			idx = intToLongLong(x, ++y), empty = 1;
+
+			for (int k = 0; k < world[idx].size(); k++, empty = 0)
+				cout << i->second[j] << " vs " << world[idx][k] << endl;
+
+			if (empty)
+				world.erase(idx);
+
+			idx = intToLongLong(x, ++y), empty = 1;
+
+			for (int k = 0; k < world[idx].size(); k++, empty = 0)
+				cout << i->second[j] << " vs " << world[idx][k] << endl;
+
+			if (empty)
+				world.erase(idx);
 		}
 
 		cout << endl;
