@@ -7,101 +7,73 @@ using std::cout;
 using std::endl;
 using std::vector;
 
+long long intToLongLong(int x, int y)
+{
+	return long long(x) << 32 | (long long(y) & 0x00000000ffffffff);
+}
+
 int main()
 {
-
-	map<int, map<int, vector<int>>> world;
+	map<long long, vector<int>> world;
 
 	world.clear();
 
-	world[-1][-1].push_back(0);
-	world[-1][-1].push_back(9);
-	world[-1][0].push_back(1);
-	world[-1][1].push_back(2);
-	world[0][-1].push_back(3);
-	world[0][0].push_back(4);
-	world[0][1].push_back(5);
-	world[1][-1].push_back(6);
-	world[1][0].push_back(7);
-	world[1][1].push_back(8);
+	world[intToLongLong(-1, -1)].push_back(0);
+	world[intToLongLong(-1, 0)].push_back(1);
+	world[intToLongLong(-1, 1)].push_back(2);
+	world[intToLongLong(0, -1)].push_back(3);
+	world[intToLongLong(0, 0)].push_back(4);
+	world[intToLongLong(0, 1)].push_back(5);
+	world[intToLongLong(1, -1)].push_back(6);
+	world[intToLongLong(1, 0)].push_back(7);
+	world[intToLongLong(1, 1)].push_back(8);
 
-	for (map<int, map<int, vector<int>>>::iterator i = world.begin(); i != world.end(); i++)
-		for (map<int, vector<int>>::iterator j = i->second.begin(); j != i->second.end(); j++)
-		{
-			cout << "(" << i->first << ", " << j->first << ") : ";
+	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	{
+		cout << "(" << int(i->first >> 32) << ", " << int(i->first) << ") : ";
 
-			for (int k = 0; k < j->second.size(); k++)
-				cout << j->second[k] << " ";
+		for (int j = 0; j < i->second.size(); j++)
+			cout << i->second[j] << " ";
 
-			cout << endl;
-		}
+		cout << endl;
+	}
+
 	cout << endl;
 
-	map<int, map<int, vector<int>>>::iterator find1;
-	map<int, vector<int>>::iterator find2;
+	map<long long, vector<int>>::iterator find;
 
-	for (map<int, map<int, vector<int>>>::iterator i = world.begin(); i != world.end(); i++)
+	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
 	{
-		for (map<int, vector<int>>::iterator j = i->second.begin(); j != i->second.end(); j++)
+		for (int j = 0; j < i->second.size(); j++)
 		{
-			for (int k = 0; k < j->second.size(); k++)
-			{
-				for (int l = k + 1; l < j->second.size(); l++)
-				{
-					cout << j->second[k] << " vs " << j->second[l] << endl;
-				}
+			for (int k = j + 1; k < i->second.size(); k++)
+				cout << i->second[j] << " vs " << i->second[k] << endl;
 
-				find1 = world.find(i->first);
+			find = world.find(intToLongLong(int(i->first >> 32), int(i->first) + 1));
 
-				if (find1 != world.end())
-				{
-					find2 = find1->second.find(j->first + 1);
+			if (find != world.end())
+				for (int k = 0; k < find->second.size(); k++)
+					cout << i->second[j] << " vs " << find->second[k] << endl;
 
-					if (find2 != find1->second.end())
-					{
-						for (int l = 0; l < find2->second.size(); l++)
-						{
-							cout << j->second[k] << " vs " << find2->second[l] << endl;
-						}
-					}
-				}
+			find = world.find(intToLongLong(int(i->first >> 32) + 1, int(i->first) + 1));
 
-				find1 = world.find(i->first + 1);
+			if (find != world.end())
+				for (int k = 0; k < find->second.size(); k++)
+					cout << i->second[j] << " vs " << find->second[k] << endl;
 
-				if (find1 != world.end())
-				{
-					find2 = find1->second.find(j->first - 1);
+			find = world.find(intToLongLong(int(i->first >> 32) + 1, int(i->first)));
 
-					if (find2 != find1->second.end())
-					{
-						for (int l = 0; l < find2->second.size(); l++)
-						{
-							cout << j->second[k] << " vs " << find2->second[l] << endl;
-						}
-					}
+			if (find != world.end())
+				for (int k = 0; k < find->second.size(); k++)
+					cout << i->second[j] << " vs " << find->second[k] << endl;
 
-					find2 = find1->second.find(j->first);
+			find = world.find(intToLongLong(int(i->first >> 32) + 1, int(i->first) - 1));
 
-					if (find2 != find1->second.end())
-					{
-						for (int l = 0; l < find2->second.size(); l++)
-						{
-							cout << j->second[k] << " vs " << find2->second[l] << endl;
-						}
-					}
-
-					find2 = find1->second.find(j->first + 1);
-
-					if (find2 != find1->second.end())
-					{
-						for (int l = 0; l < find2->second.size(); l++)
-						{
-							cout << j->second[k] << " vs " << find2->second[l] << endl;
-						}
-					}
-				}
-			}
-			cout << endl;
+			if (find != world.end())
+				for (int k = 0; k < find->second.size(); k++)
+					cout << i->second[j] << " vs " << find->second[k] << endl;
 		}
+
+		cout << endl;
 	}
 }
