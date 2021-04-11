@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
-using std::map;
+using std::unordered_map;
 using std::cout;
 using std::endl;
 using std::vector;
@@ -11,7 +11,7 @@ long long intToLongLong(int x, int y) { return long long(x) << 32 | (long long(y
 
 int main()
 {
-	map<long long, vector<int>> world;
+	unordered_map<long long, vector<int>> world;
 
 	world.clear();
 
@@ -25,7 +25,7 @@ int main()
 	world[intToLongLong(1, 0)].push_back(7);
 	world[intToLongLong(1, 1)].push_back(8);
 
-	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	for (unordered_map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
 	{
 		cout << "(" << int(i->first >> 32) << ", " << int(i->first) << ") : ";
 
@@ -37,9 +37,9 @@ int main()
 
 	cout << endl;
 
-	map<long long, vector<int>>::iterator find;
+	unordered_map<long long, vector<int>>::iterator find;
 
-	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	for (unordered_map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
 	{
 		for (int j = 0; j < i->second.size(); j++)
 		{
@@ -74,15 +74,18 @@ int main()
 		cout << endl;
 	}
 
+	cout << endl;
+
 	bool empty;
 	int x, y;
 	long long idx;
 
-	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	for (unordered_map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
 	{
+		x = i->first >> 32, y = i->first;
+
 		for (int j = 0; j < i->second.size(); j++)
 		{
-			x = i->first >> 32, y = i->first;
 
 			for (int k = j + 1; k < i->second.size(); k++)
 				cout << i->second[j] << " vs " << i->second[k] << endl;
