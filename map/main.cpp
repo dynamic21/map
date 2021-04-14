@@ -37,7 +37,7 @@ int main()
 
 	cout << endl;
 
-	map<long long, vector<int>>::iterator find;
+	/*unordered_map<long long, vector<int>>::iterator find;
 
 	for (map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
 	{
@@ -73,6 +73,8 @@ int main()
 
 		cout << endl;
 	}
+
+	cout << endl;*/
 
 	bool empty;
 	int x, y;
@@ -115,11 +117,20 @@ int main()
 
 			for (int k = 0; k < world[idx].size(); k++, empty = 0)
 				cout << i->second[j] << " vs " << world[idx][k] << endl;
-
-			if (empty)
-				world.erase(idx);
 		}
 
 		cout << endl;
+	}/**/
+
+	for (unordered_map<long long, vector<int>>::iterator i = world.begin(); i != world.end(); i++)
+	{
+		cout << "(" << int(i->first >> 32) << ", " << int(i->first) << ") : ";
+
+		for (int j = 0; j < i->second.size(); j++)
+			cout << i->second[j] << " ";
+
+		cout << endl;
 	}
+
+	cout << endl;
 }
